@@ -1,0 +1,29 @@
+.game-board {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(10, 1fr);
+      border: 1px solid black;
+      width: 800px;
+      height: 500px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      font-weight: bold;
+      border: 1px solid black;
+    }
+    
+    .player {
+      position: absolute;
+      width: 10%;
+      height: 10%;
+      background-color: red;
+      border-radius: 50%;
+      transition: all 0.3s ease-in-out;
+    }
+    
