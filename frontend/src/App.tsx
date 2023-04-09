@@ -1,12 +1,13 @@
 
 import './App.css';
-import SnakeLadder from "../src/Components/SnankLadder"
+
 import Home from './Components/Home';
+import SnankLadderTwoplayer from './Components/SnankLadderTwoplayer'
 function App() {
   return (
     <div className="App">
-      {/* <SnakeLadder/> */}
-      <Home/>
+    
+    <SnankLadderTwoplayer/>
     </div>
   );
 }
