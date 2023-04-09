@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       {/* <SnakeLadder/> */}
       <Signup/>
-      <Login/>
+      {/* <Login/> */}
     </div>
   );
 }

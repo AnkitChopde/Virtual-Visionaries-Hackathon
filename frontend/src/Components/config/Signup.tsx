@@ -13,12 +13,20 @@
   ```
 */
 // import { LockClosedIcon } from '@heroicons/react/20/solid'
+import { url } from "inspector";
 import {useState} from "react"
+import axios from "axios";
 
 const Signup=()=> {
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
     const [name, setName] = useState<String>("");
+
+    interface user{
+        name:String;
+        email:String;
+        password:String;
+        }
 
     const handleRegister=async()=>{
         // event.preventdefault();
@@ -27,24 +35,20 @@ const Signup=()=> {
             name,email,password
         }
         console.log(payload)
-        alert("Register successfully")
         try {
-            // axios({
-  
-            //     // Endpoint to send files
-            //     url: "http://localhost:8080/files",
-            //     method: "POST",
-            //     headers: {
+            axios.post("http://localhost:8080/files",{payload}).then(()=>{
+                alert("User Registered successfully");
+            }
+            ).catch(()=>{
+                alert("something went wrong")
+            })
             
-            //       // Add any auth token here
-            //       authorization: "your token comes here",
-            //     },
         } catch (err) {
             alert(err)
         }
     }
     return (
-      <>
+      <div className="fixed inset-0 bg bg-opacity-75 transition-opacity" style={{backgroundImage:"url(https://wallpapercave.com/wp/wp9142232.jpg)  ",height:"100vh",backgroundSize:"contain", backgroundPosition:"center",backgroundRepeat:"no-repeat",backgroundColor:"#fca941"}} >
         {/*
           This example requires updating your template:
   
@@ -53,7 +57,7 @@ const Signup=()=> {
           <body class="h-full">
           ```
         */}
-        <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">        //background image
+        <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8"  >   
           <div className="w-full max-w-md space-y-8">
             <div>
               {/* <img
@@ -61,7 +65,7 @@ const Signup=()=> {
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt="Your Company"
               /> */}
-              <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+              <h2 className="mt-6 text-center text-4xl font-bold tracking-tight text-gray-900">
                 Sign up to your account
               </h2>
               {/* <p className="mt-2 text-center text-sm text-gray-600">
@@ -84,7 +88,7 @@ const Signup=()=> {
                     name="name"
                     type="text"
                     required
-                    className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                     placeholder="Enter your name"
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -99,7 +103,7 @@ const Signup=()=> {
                     type="email"
                     autoComplete="email"
                     required
-                    className="relative block w-full roundedmd border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="relative block w-full roundedmd border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                     placeholder="Email address"
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -114,7 +118,7 @@ const Signup=()=> {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-md sm:leading-6"
                     placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
                   />
@@ -124,9 +128,10 @@ const Signup=()=> {
               <div>
                 <button
                 // {!email && !name && !password? isDisabled:onClick={handleRegister}}
+                style={{backgroundColor:"#949b03"}}
                 onClick={handleRegister}
                 //   type="button"
-                  className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="group relative flex w-full justify-center rounded-md  px-3 py-2 text-md font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     {/* <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" /> */}
@@ -137,8 +142,10 @@ const Signup=()=> {
             </form>
           </div>
         </div>
-      </>
+      </div>
     )
   }
   
   export default Signup;
+
+//   
