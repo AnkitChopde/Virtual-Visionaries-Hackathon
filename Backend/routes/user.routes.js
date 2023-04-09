@@ -3,7 +3,14 @@ const UserModel = require("../models/user.model");
 const userRoutes = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+import {StreamChat} from "stream-chat"
 const { verifyToken } = require("../middlewares/authenticate");
+
+const api_key = process.env.apiKey;
+const secret_key = process.env.secretKey
+
+const serverClient=new StreamChat.getInstance(api_key,secret_key)
+
 
 userRoutes.get("/",async(req,res)=>{
     try{
@@ -25,11 +32,13 @@ userRoutes.post("/register", async (req, res) => {
   try {
       if ( req.body.email && req.body.password && req.body.username) {
           const preCheck = await UserModel.findOne({ email });
+          const userId = uuidv4();
           if (!preCheck) {
               const hashedPassword = await bcrypt.hash(req.body.password, 7);
               const newUser = new UserModel({ ...req.body, password: hashedPassword,coins:100 });
               await newUser.save();
-              res.status(200).send({ msg: "User has been registered", status: "success" });
+              const token = serverClient.createToken(userId);
+              res.status(200).send({ msg: "User has been registered",data:{ token, userId,email, username, hashedPassword }, status: "success" });
           } else {
               res.status(400).send({ msg: "User already registered" })
           }
@@ -48,7 +57,7 @@ userRoutes.post("/login", async (req, res) => {
           const preCheck = await UserModel.findOne({ email });
           if (preCheck) {
               const hashCheck = await bcrypt.compare(password, preCheck.password);
-              const token = jwt.sign({ "userId": preCheck._id }, "snake_ladder", { expiresIn: "1d" });
+              
               if (hashCheck) {
                   res.status(200).send({ msg: "User logged in successfull", status: "success", token });
               } else {
@@ -65,12 +74,12 @@ userRoutes.post("/login", async (req, res) => {
   }
 });
 
-userRoutes.use(verifyToken);
-
 userRoutes.patch("/update/:id",async(req,res)=>{
-  
+
+    const user = await UserModel.findOne({id});
+    let payload = {...user,coins:req.body.coins}
   try {
-    await UserModel.findByIdAndUpdate(req.params.id, req.body);
+    await UserModel.findByIdAndUpdate(req.params.id,payload);
     res.status(200).send({ msg: "User details has been updated", status: "success" });
 } catch (e) {
     res.status(400).send({ msg: e.message });
