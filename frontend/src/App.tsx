@@ -2,12 +2,12 @@
 import './App.css';
 
 import Home from './Components/Home';
-import SnankLadderTwoplayer from './Components/SnankLadderTwoplayer'
+import SnankLadderRandom from './Components/SnankLadderRandom'
 function App() {
   return (
     <div className="App">
     
-    <SnankLadderTwoplayer/>
+    <SnankLadderRandom/>
     </div>
   );
 }
